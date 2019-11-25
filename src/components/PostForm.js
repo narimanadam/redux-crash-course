@@ -46,9 +46,6 @@ const PostForm = () => {
         />
         <Button buttonStyle="primary" type="submit" text="Add Post" />
       </form>
-      <Link to="/posts">
-        <Button buttonStyle="secondary" type="button" text="View Posts" />
-      </Link>
     </div>
   );
 };
