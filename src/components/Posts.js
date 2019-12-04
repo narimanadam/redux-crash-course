@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PostItem from "./PostItem";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions/postActions";
 
 const Posts = ({ newPost, posts, fetchPosts }) => {
-  const [updatedPosts, setUpdatedPosts] = useState([]);
-
   useEffect(() => {
     fetchPosts();
-  }, []);
-
-  useEffect(() => {
     posts.unshift(newPost);
-    setUpdatedPosts(posts);
   }, [posts, newPost]);
 
   return (
