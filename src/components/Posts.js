@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PostItem from "./PostItem";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions/postActions";
 
-const Posts = ({ posts }) => {
-  // const [posts, setPosts] = useState([]);
+const Posts = ({ newPost, posts, fetchPosts }) => {
+  const [updatedPosts, setUpdatedPosts] = useState([]);
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    posts.unshift(newPost);
+    setUpdatedPosts(posts);
+  }, [posts, newPost]);
+
   return (
     <div className="container">
       <h1>Posts</h1>
       <div className="row">
-        {posts.map(({ id, title, body }) => (
-          <div className="col-md-4">
-            <PostItem key={id} title={title} body={body} />
+        {console.log(updatedPosts)}
+        {updatedPosts.map(({ id, title, body }) => (
+          <div className="col-md-4" key={id}>
+            <PostItem title={title} body={body} />
           </div>
         ))}
       </div>
@@ -22,11 +31,15 @@ const Posts = ({ posts }) => {
   );
 };
 
+Posts.propTypes = {
+  fetchPosts: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+  newPost: PropTypes.object
+};
+
 const mapStateToProps = state => ({
-  posts: state.posts.items
+  posts: state.postReducer.items,
+  newPost: state.postReducer.item
 });
 
-export default connect(
-  mapStateToProps,
-  { fetchPosts }
-)(Posts);
+export default connect(mapStateToProps, { fetchPosts })(Posts);

@@ -2,29 +2,25 @@ import React, { useState } from "react";
 import InputField from "./InputField";
 import Textarea from "./Textarea";
 import Button from "./Button";
-import { Link } from "@reach/router";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { createPost } from "../actions/postActions";
 
-const PostForm = () => {
+const PostForm = ({ createPost }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
 
   const addPost = e => {
     e.preventDefault();
+
     const post = {
       title: postTitle,
       body: postBody
     };
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(post)
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+
+    createPost(post);
   };
+
   return (
     <div className="container">
       <h1>Add Post</h1>
@@ -50,4 +46,8 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+PostForm.propTypes = {
+  createPost: PropTypes.func.isRequired
+};
+
+export default connect(null, { createPost })(PostForm);
