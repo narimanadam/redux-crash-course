@@ -14,8 +14,7 @@ const Posts = ({ newPost, posts, fetchPosts }) => {
     <div className="container">
       <h1>Posts</h1>
       <div className="row">
-        {console.log(updatedPosts)}
-        {updatedPosts.map(({ id, title, body }) => (
+        {posts.map(({ id, title, body }) => (
           <div className="col-md-4" key={id}>
             <PostItem title={title} body={body} />
           </div>
