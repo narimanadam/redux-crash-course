@@ -13,9 +13,10 @@ export default function(state = initialState, action) {
         items: action.payload
       };
     case NEW_POST:
+      const newPost = action.payload;
       return {
         ...state,
-        item: action.payload
+        items: [newPost, ...state.items]
       };
     default:
       return state;
